@@ -1,0 +1,17 @@
+<?php
+include 'config.php';
+
+$token = $_GET['token'];
+$sql = "UPDATE mitra SET status_verifikasi = 'verified', token_verifikasi = NULL 
+        WHERE token_verifikasi = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $token);
+
+if ($stmt->execute() && $stmt->affected_rows > 0) {
+    echo "<script>alert('Akun berhasil diverifikasi! Silakan login.'); 
+          window.location='login-mitra.php';</script>";
+} else {
+    echo "<script>alert('Token verifikasi tidak valid!'); 
+          window.location='register-mitra.php';</script>";
+}
+?>
